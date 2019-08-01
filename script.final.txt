@@ -1,0 +1,268 @@
+
+-- --------------------------------------------------
+-- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
+-- --------------------------------------------------
+-- Date Created: 08/01/2019 18:55:58
+-- Generated from EDMX file: C:\Users\smohanty2\source\repos\SecurityChallenge.FAI\SecurityChallenge.FAI\Models\SecurityChallenge.edmx
+-- --------------------------------------------------
+
+SET QUOTED_IDENTIFIER OFF;
+GO
+USE [securitychallenge];
+GO
+IF SCHEMA_ID(N'dbo') IS NULL EXECUTE(N'CREATE SCHEMA [dbo]');
+GO
+
+-- --------------------------------------------------
+-- Dropping existing FOREIGN KEY constraints
+-- --------------------------------------------------
+
+IF OBJECT_ID(N'[dbo].[FK_Character_user]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[Tbl_User_Charcter] DROP CONSTRAINT [FK_Character_user];
+GO
+IF OBJECT_ID(N'[dbo].[FK_Character_userid]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[UserCharacters] DROP CONSTRAINT [FK_Character_userid];
+GO
+IF OBJECT_ID(N'[dbo].[FK_dbo_LNK_USER_Character_dbo_user]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[UserCharacters] DROP CONSTRAINT [FK_dbo_LNK_USER_Character_dbo_user];
+GO
+IF OBJECT_ID(N'[dbo].[FK_dbo_LNK_USER_Character_dbo_user_create]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[Tbl_User_Charcter] DROP CONSTRAINT [FK_dbo_LNK_USER_Character_dbo_user_create];
+GO
+IF OBJECT_ID(N'[dbo].[FK_dbo_LNK_USER_ROLE_dbo_ROLES_RoleId]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[UserRoles] DROP CONSTRAINT [FK_dbo_LNK_USER_ROLE_dbo_ROLES_RoleId];
+GO
+IF OBJECT_ID(N'[dbo].[FK_UserRoles_userid]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[UserRoles] DROP CONSTRAINT [FK_UserRoles_userid];
+GO
+
+-- --------------------------------------------------
+-- Dropping existing tables
+-- --------------------------------------------------
+
+IF OBJECT_ID(N'[dbo].[ROLES]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[ROLES];
+GO
+IF OBJECT_ID(N'[dbo].[Tbl_Character]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[Tbl_Character];
+GO
+IF OBJECT_ID(N'[dbo].[Tbl_User_Charcter]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[Tbl_User_Charcter];
+GO
+IF OBJECT_ID(N'[dbo].[UserCharacters]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[UserCharacters];
+GO
+IF OBJECT_ID(N'[dbo].[UserRoles]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[UserRoles];
+GO
+IF OBJECT_ID(N'[dbo].[USERS]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[USERS];
+GO
+
+-- --------------------------------------------------
+-- Creating all tables
+-- --------------------------------------------------
+
+-- Creating table 'ROLES'
+CREATE TABLE [dbo].[ROLES] (
+    [RoleId] int IDENTITY(1,1) NOT NULL,
+    [LastModified] datetime  NOT NULL,
+    [IsSysAdmin] bit  NOT NULL,
+    [RoleDescription] nvarchar(max)  NULL,
+    [Name] nvarchar(256)  NOT NULL
+);
+GO
+
+-- Creating table 'UserRoles'
+CREATE TABLE [dbo].[UserRoles] (
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [UserId] int  NULL,
+    [RoleId] int  NULL
+);
+GO
+
+-- Creating table 'USERS'
+CREATE TABLE [dbo].[USERS] (
+    [UserId] int IDENTITY(1,1) NOT NULL,
+    [LastModified] datetime  NULL,
+    [Inactive] bit  NULL,
+    [Firstname] nvarchar(max)  NULL,
+    [Lastname] nvarchar(max)  NULL,
+    [Email] nvarchar(256)  NULL,
+    [EmailConfirmed] bit  NULL,
+    [PasswordHash] nvarchar(max)  NULL,
+    [SecurityStamp] nvarchar(max)  NULL,
+    [PhoneNumber] nvarchar(max)  NULL,
+    [PhoneNumberConfirmed] bit  NULL,
+    [TwoFactorEnabled] bit  NULL,
+    [LockoutEndDateUtc] datetime  NULL,
+    [LockoutEnabled] bit  NULL,
+    [AccessFailedCount] int  NULL,
+    [UserName] nvarchar(256)  NOT NULL,
+    [MaxCharacter] int  NULL
+);
+GO
+
+-- Creating table 'Tbl_Character'
+CREATE TABLE [dbo].[Tbl_Character] (
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [Character_Name] varchar(50)  NULL,
+    [Description] varchar(500)  NULL
+);
+GO
+
+-- Creating table 'UserCharacters'
+CREATE TABLE [dbo].[UserCharacters] (
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [User_Id] int  NOT NULL,
+    [Character_Id] int  NOT NULL
+);
+GO
+
+-- Creating table 'Tbl_User_Charcter'
+CREATE TABLE [dbo].[Tbl_User_Charcter] (
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [Character_ID] int  NULL,
+    [Character_Name] varchar(50)  NULL,
+    [Description] varchar(50)  NULL,
+    [User_ID] int  NULL
+);
+GO
+
+-- --------------------------------------------------
+-- Creating all PRIMARY KEY constraints
+-- --------------------------------------------------
+
+-- Creating primary key on [RoleId] in table 'ROLES'
+ALTER TABLE [dbo].[ROLES]
+ADD CONSTRAINT [PK_ROLES]
+    PRIMARY KEY CLUSTERED ([RoleId] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'UserRoles'
+ALTER TABLE [dbo].[UserRoles]
+ADD CONSTRAINT [PK_UserRoles]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [UserId] in table 'USERS'
+ALTER TABLE [dbo].[USERS]
+ADD CONSTRAINT [PK_USERS]
+    PRIMARY KEY CLUSTERED ([UserId] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'Tbl_Character'
+ALTER TABLE [dbo].[Tbl_Character]
+ADD CONSTRAINT [PK_Tbl_Character]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'UserCharacters'
+ALTER TABLE [dbo].[UserCharacters]
+ADD CONSTRAINT [PK_UserCharacters]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'Tbl_User_Charcter'
+ALTER TABLE [dbo].[Tbl_User_Charcter]
+ADD CONSTRAINT [PK_Tbl_User_Charcter]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- --------------------------------------------------
+-- Creating all FOREIGN KEY constraints
+-- --------------------------------------------------
+
+-- Creating foreign key on [RoleId] in table 'UserRoles'
+ALTER TABLE [dbo].[UserRoles]
+ADD CONSTRAINT [FK_dbo_LNK_USER_ROLE_dbo_ROLES_RoleId]
+    FOREIGN KEY ([RoleId])
+    REFERENCES [dbo].[ROLES]
+        ([RoleId])
+    ON DELETE CASCADE ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_dbo_LNK_USER_ROLE_dbo_ROLES_RoleId'
+CREATE INDEX [IX_FK_dbo_LNK_USER_ROLE_dbo_ROLES_RoleId]
+ON [dbo].[UserRoles]
+    ([RoleId]);
+GO
+
+-- Creating foreign key on [UserId] in table 'UserRoles'
+ALTER TABLE [dbo].[UserRoles]
+ADD CONSTRAINT [FK_UserRoles_userid]
+    FOREIGN KEY ([UserId])
+    REFERENCES [dbo].[USERS]
+        ([UserId])
+    ON DELETE CASCADE ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_UserRoles_userid'
+CREATE INDEX [IX_FK_UserRoles_userid]
+ON [dbo].[UserRoles]
+    ([UserId]);
+GO
+
+-- Creating foreign key on [Character_Id] in table 'UserCharacters'
+ALTER TABLE [dbo].[UserCharacters]
+ADD CONSTRAINT [FK_Character_userid]
+    FOREIGN KEY ([Character_Id])
+    REFERENCES [dbo].[Tbl_Character]
+        ([Id])
+    ON DELETE CASCADE ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_Character_userid'
+CREATE INDEX [IX_FK_Character_userid]
+ON [dbo].[UserCharacters]
+    ([Character_Id]);
+GO
+
+-- Creating foreign key on [User_Id] in table 'UserCharacters'
+ALTER TABLE [dbo].[UserCharacters]
+ADD CONSTRAINT [FK_dbo_LNK_USER_Character_dbo_user]
+    FOREIGN KEY ([User_Id])
+    REFERENCES [dbo].[USERS]
+        ([UserId])
+    ON DELETE CASCADE ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_dbo_LNK_USER_Character_dbo_user'
+CREATE INDEX [IX_FK_dbo_LNK_USER_Character_dbo_user]
+ON [dbo].[UserCharacters]
+    ([User_Id]);
+GO
+
+-- Creating foreign key on [Character_ID] in table 'Tbl_User_Charcter'
+ALTER TABLE [dbo].[Tbl_User_Charcter]
+ADD CONSTRAINT [FK_Character_user]
+    FOREIGN KEY ([Character_ID])
+    REFERENCES [dbo].[Tbl_Character]
+        ([Id])
+    ON DELETE CASCADE ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_Character_user'
+CREATE INDEX [IX_FK_Character_user]
+ON [dbo].[Tbl_User_Charcter]
+    ([Character_ID]);
+GO
+
+-- Creating foreign key on [User_ID] in table 'Tbl_User_Charcter'
+ALTER TABLE [dbo].[Tbl_User_Charcter]
+ADD CONSTRAINT [FK_dbo_LNK_USER_Character_dbo_user_create]
+    FOREIGN KEY ([User_ID])
+    REFERENCES [dbo].[USERS]
+        ([UserId])
+    ON DELETE CASCADE ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_dbo_LNK_USER_Character_dbo_user_create'
+CREATE INDEX [IX_FK_dbo_LNK_USER_Character_dbo_user_create]
+ON [dbo].[Tbl_User_Charcter]
+    ([User_ID]);
+GO
+
+-- --------------------------------------------------
+-- Script has ended
+-- --------------------------------------------------
